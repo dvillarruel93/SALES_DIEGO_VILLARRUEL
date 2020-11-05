@@ -1,7 +1,9 @@
 package repository
 
 import (
+	"errors"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/dvillarruel93/SALES_DIEGO_VILLARRUEL/internal/platform/database"
@@ -21,11 +23,12 @@ func NewTicketRepository(db database.Database) TicketRepository {
 }
 
 func (r TicketRepository) Get() ([]ticket.SalesResume, error) {
-	query := "SELECT country_name, COUNT(*) AS total_sales, SUM(amount) AS total_amount FROM sale GROUP BY country_name"
+	query := "SELECT country_name, COUNT(*) AS total_sales, SUM(amount) AS total_amount FROM sale GROUP BY country_name ORDER BY total_sales DESC"
 	rows, err := r.database.SelectMultiple(query, nil)
 
 	if err != nil {
-		return []ticket.SalesResume{}, err
+		log.Printf("error doing multiple select: %s", err.Error())
+		return []ticket.SalesResume{}, errors.New("error doing multiple select")
 	}
 
 	defer rows.Close()
@@ -34,7 +37,8 @@ func (r TicketRepository) Get() ([]ticket.SalesResume, error) {
 	for rows.Next() {
 		var saleResume ticket.SalesResume
 		if err := rows.Scan(&saleResume.CountryName, &saleResume.TotalSales, &saleResume.TotalAmount); err != nil {
-			return salesResume, nil
+			log.Printf("error scanning row: %s", err.Error())
+			return salesResume, errors.New("error scanning row")
 		}
 
 		salesResume = append(salesResume, saleResume)
@@ -54,16 +58,16 @@ func (r TicketRepository) Save(sale ticket.Sale) (ticket.Sale, error) {
 		sale.CountryID,
 		sale.CountryName)
 	sqlResult, err := r.database.ExecuteQuery(query)
-
 	if err != nil {
-		return sale, err
+		log.Printf("error executing query: %s", err.Error())
+		return sale, errors.New("error executing query")
 	}
 
-	lastInsertedID, err := sqlResult.LastInsertId()
+	sale.DateCreated = now
 
+	lastInsertedID, err := sqlResult.LastInsertId()
 	if err == nil {
 		sale.ID = lastInsertedID
-		sale.DateCreated = now
 	}
 
 	return sale, nil

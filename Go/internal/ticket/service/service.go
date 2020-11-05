@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/dvillarruel93/SALES_DIEGO_VILLARRUEL/internal/ticket"
+	"strings"
 )
 
 type TicketRepository interface {
@@ -45,7 +46,7 @@ func toSale(saleReceived ticket.SaleReceived) ticket.Sale {
 		Amount:      saleReceived.Amount,
 		SaleType:    saleReceived.Type,
 		EventID:     saleReceived.EventID,
-		CountryID:   saleReceived.CountryData.ID,
-		CountryName: saleReceived.CountryData.Name,
+		CountryID:   saleReceived.CountryID,
+		CountryName: strings.ToUpper(saleReceived.CountryName),
 	}
 }

@@ -27,7 +27,9 @@ func NewDatabase() Database {
 
 func openConnection() {
 	var err error
+
 	connectionString := "docker:docker@tcp(db:3306)/ticket_test"
+
 	db, err = sql.Open("mysql", connectionString)
 
 	if err != nil {
@@ -75,6 +77,7 @@ func (dbHandler DBHandler) SelectOne(query string, destinationResult ...interfac
 
 	defer stmtOut.Close()
 	err = stmtOut.QueryRow().Scan(destinationResult...)
+
 	return err
 }
 
@@ -87,5 +90,6 @@ func (dbHandler DBHandler) ExecuteQuery(query string) (sql.Result, error) {
 
 	res, err := stmtIns.Exec()
 	stmtIns.Close()
+
 	return res, err
 }

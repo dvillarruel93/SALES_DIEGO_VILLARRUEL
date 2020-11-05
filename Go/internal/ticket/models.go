@@ -3,20 +3,17 @@ package ticket
 import "time"
 
 type Error struct {
-	Error string `json:"error"`
+	Message    string `json:"message"`
+	Error      string `json:"error"`
+	StatusCode int    `json:"status_code"`
 }
 
 type SaleReceived struct {
 	EventID     int64   `json:"event_id"`
 	Amount      float64 `json:"amount"`
 	Type        string  `json:"sale_type"`
-	CountryData Country `json:"country_data"`
-}
-
-type Country struct {
-	ID    int64  `json:"id"`
-	Name  string `json:"name"`
-	State string `json:"state"`
+	CountryID   int64   `json:"country_id"`
+	CountryName string  `json:"country_name"`
 }
 
 type Sale struct {
@@ -32,5 +29,5 @@ type Sale struct {
 type SalesResume struct {
 	CountryName string `json:"country_name"`
 	TotalSales  int    `json:"total_sales"`
-	TotalAmount int    `json:"total_amoun"`
+	TotalAmount int64  `json:"total_amount"`
 }
