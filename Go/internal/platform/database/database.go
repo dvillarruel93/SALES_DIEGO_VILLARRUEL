@@ -27,7 +27,6 @@ func NewDatabase() Database {
 
 func openConnection() {
 	var err error
-	//connectionString := "root:Elvilla.93@/ticket_test"
 	connectionString := "docker:docker@tcp(db:3306)/ticket_test"
 	db, err = sql.Open("mysql", connectionString)
 

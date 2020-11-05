@@ -14,7 +14,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		token := c.GetHeader("auth-token")
 
 		if token != authToken {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, ticket.Error{Error:"invalid token"})
+			c.AbortWithStatusJSON(http.StatusUnauthorized, ticket.Error{Error: "invalid token"})
 			return
 		}
 

@@ -19,4 +19,4 @@ RUN go build -o main ./cmd/app
 EXPOSE 8080
 
 # Run the created binary executable after wait for mysql container to be up
-CMD ["./cmd/app/main"]
+CMD ["./main"]
