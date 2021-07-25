@@ -1,6 +1,8 @@
 package ticket
 
-import "time"
+import (
+	"time"
+)
 
 type Error struct {
 	Message    string `json:"message"`

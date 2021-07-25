@@ -32,6 +32,7 @@ func (r TicketRepository) Get() ([]ticket.SalesResume, error) {
 	}
 
 	defer rows.Close()
+
 	var salesResume []ticket.SalesResume
 
 	for rows.Next() {
@@ -58,6 +59,7 @@ func (r TicketRepository) Save(sale ticket.Sale) (ticket.Sale, error) {
 		sale.CountryID,
 		sale.CountryName)
 	sqlResult, err := r.database.ExecuteQuery(query)
+
 	if err != nil {
 		log.Printf("error executing query: %s", err.Error())
 		return sale, errors.New("error executing query")
